@@ -1,0 +1,19 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building mybatis-generator-allstart 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ mybatis-generator-allstart ---
+[INFO] com.agilers:mybatis-generator-allstart:war:0.0.1-SNAPSHOT
+[INFO] +- log4j:log4j:jar:1.2.7:compile
+[INFO] +- org.apache.ant:ant:jar:1.9.0:compile
+[INFO] |  \- org.apache.ant:ant-launcher:jar:1.9.0:compile
+[INFO] \- mysql:mysql-connector-java:jar:5.1.38:compile
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 4.379 s
+[INFO] Finished at: 2018-09-20T16:56:02+08:00
+[INFO] Final Memory: 12M/155M
+[INFO] ------------------------------------------------------------------------
