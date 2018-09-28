@@ -1,4 +1,4 @@
-package com.agilers.basic;
+package basic;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

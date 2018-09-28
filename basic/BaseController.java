@@ -1,4 +1,4 @@
-package com.agilers.basic;
+package basic;
 
 import javax.servlet.http.HttpServletRequest;
 

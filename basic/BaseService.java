@@ -1,4 +1,4 @@
-package com.agilers.basic;
+package basic;
 
 import java.util.List;
 import java.util.Map;
