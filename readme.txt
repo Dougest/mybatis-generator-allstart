@@ -23,7 +23,7 @@ org.mybatis.generator
 	--plugins		== 插件
 	--config		== 配置
 	--internal		== 内部使用的一些东西 
-		-- rules	== 规则,有些匹配规则才会生成响应代码
+		-- rules	== 规则,有些匹配规则才会生成相应代码
 
 
 
