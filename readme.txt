@@ -24,3 +24,4 @@ org.mybatis.generator
 	--config		== 配置
 	--internal		== 内部使用的一些东西 
 		-- rules	== 规则,有些匹配规则才会生成相应代码
+
