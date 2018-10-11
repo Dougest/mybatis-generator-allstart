@@ -34,6 +34,10 @@ public class BaseController<T> {
 	// 空对象
 	public static final String RESULT_OBJ_NULL = "{}";
 
+	public static final String RESULT_OPER_SUCCESS = "{\"status\": \"true\",\"msg\": \"操作成功!\"}";
+
+	public static final String RESULT_OPER_FAUILTRUE = "{\"status\": \"true\",\"msg\": \"操作失败!\"}";
+
 	/**
 	 * 获取全局Session
 	 */
