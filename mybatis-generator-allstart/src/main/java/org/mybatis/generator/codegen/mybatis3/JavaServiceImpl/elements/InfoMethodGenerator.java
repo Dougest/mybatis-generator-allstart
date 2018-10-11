@@ -40,7 +40,12 @@ public class InfoMethodGenerator extends AbstractJavaMethodGenerator {
 
 	@Override
 	protected void addMethodBody(Method method) {
-		method.addBodyLine("return " + ConstKey.service_reference + ".selectByPrimaryKey(id);");
+		List<Parameter> list = method.getParameters();
+		String param = "id";
+		if (list != null && !list.isEmpty()) {
+			param = list.get(0).getName();
+		}
+		method.addBodyLine("return " + ConstKey.service_reference + ".selectByPrimaryKey(" + param + ");");
 	}
 
 }
