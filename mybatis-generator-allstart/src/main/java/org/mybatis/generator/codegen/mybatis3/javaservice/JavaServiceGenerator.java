@@ -44,13 +44,9 @@ public class JavaServiceGenerator extends AbstractJavaClientGenerator {
 
 	@Override
 	public List<CompilationUnit> getCompilationUnits() {
-		// 获取注释生成器
 		CommentGenerator commentGenerator = context.getCommentGenerator();
-		// 获取modal
 		FullyQualifiedJavaType genericType = introspectedTable.getRules().calculateAllFieldsClass();
-		// 获取接口
 		FullyQualifiedJavaType type = new FullyQualifiedJavaType(introspectedTable.getMyBatis3JavaMapperType());
-		// 接口名
 		type.setBaseShortName(genericType.getBaseShortName() + "Service");
 
 		Interface interfaze = new Interface(type);

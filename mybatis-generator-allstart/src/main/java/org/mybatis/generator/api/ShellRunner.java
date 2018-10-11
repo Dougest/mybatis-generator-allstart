@@ -19,6 +19,7 @@ import static org.mybatis.generator.internal.util.messages.Messages.getString;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +41,7 @@ import org.mybatis.generator.logging.LogFactory;
  * 
  * @author Jeff Butler
  * @updater Dougest
- *          ����{@link MyBatisGenerator#generate(ProgressCallback, Set, Set)}����һ������
+ *          {@link MyBatisGenerator#generate(ProgressCallback, Set, Set)}
  */
 public class ShellRunner {
 	private static final String CONFIG_FILE = "-configfile"; //$NON-NLS-1$
@@ -53,13 +54,25 @@ public class ShellRunner {
 	private static final String HELP_2 = "-h"; //$NON-NLS-1$
 	public static Boolean isOracle = false;
 
-	public static void main(String[] args) {
-		// args = "-configfile generator.xml -overwrite";
+	public static String unicodeToUtf8(String s) {
+		try {
+			return new String(s.getBytes("utf-8"), "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
 
-		args = new String[3];
-		args[0] = "-configfile";
-		args[1] = "src/main/resources/generator.xml";
-		args[2] = "-overwrite";
+	public static void main(String[] args) {
+
+		// args = new String[3];
+		// args[0] = "-configfile";
+		// args[1] = "src/main/resources/generator.xml";
+		// args[2] = "-overwrite";
+		for (String s : args) {
+			s = unicodeToUtf8(s);
+			System.out.println(s);
+		}
 
 		if (args.length == 0) {
 			usage();
@@ -83,12 +96,13 @@ public class ShellRunner {
 		List<String> warnings = new ArrayList<String>();
 
 		String configfile = arguments.get(CONFIG_FILE);
+		// System.err.println("configfile===>>" + configfile);
 		File configurationFile = new File(configfile);
 		if (!configurationFile.exists()) {
 			writeLine(getString("RuntimeError.1", configfile)); //$NON-NLS-1$
 			return;
 		}
-
+		// configurationFile.toURI()
 		Set<String> fullyqualifiedTables = new HashSet<String>();
 		if (arguments.containsKey(TABLES)) {
 			StringTokenizer st = new StringTokenizer(arguments.get(TABLES), ","); //$NON-NLS-1$
@@ -114,6 +128,7 @@ public class ShellRunner {
 		try {
 			ConfigurationParser cp = new ConfigurationParser(warnings);
 			Configuration config = cp.parseConfiguration(configurationFile);
+
 			List<String> list = config.getClassPathEntries();
 			if (!list.isEmpty()) {
 				String type = list.get(0);
@@ -128,7 +143,7 @@ public class ShellRunner {
 			MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, shellCallback, warnings);
 
 			ProgressCallback progressCallback = arguments.containsKey(VERBOSE) ? new VerboseProgressCallback() : null;
-			// ��Ҫ���ɷ���
+			// core
 			myBatisGenerator.generate(progressCallback, contexts, fullyqualifiedTables);
 
 		} catch (XMLParserException e) {

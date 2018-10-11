@@ -480,24 +480,12 @@ public class Context extends PropertyHolder {
 
         return steps;
     }
-	/**
-	 * 
-	 * @Describe @{link IntrospectedTableMyBatis3Impl#getGeneratedXmlFiles()}
-	 * @updater Dougest
-	 * @Date 2018年9月21日 上午11:18:45
-	 * @param callback
-	 * @param generatedJavaFiles
-	 * @param generatedXmlFiles
-	 * @param warnings
-	 * @throws InterruptedException
-	 * 生成xml文件内容代码
-	 * 
-	 */
+
     public void generateFiles(ProgressCallback callback,
             List<GeneratedJavaFile> generatedJavaFiles,
             List<GeneratedXmlFile> generatedXmlFiles, List<String> warnings)
             throws InterruptedException {
-    	//内部插件类
+
         pluginAggregator = new PluginAggregator();
         for (PluginConfiguration pluginConfiguration : pluginConfigurations) {
             Plugin plugin = ObjectFactory.createPlugin(this,
@@ -516,13 +504,10 @@ public class Context extends PropertyHolder {
 
                 introspectedTable.initialize();
                 introspectedTable.calculateGenerators(warnings, callback);
-                generatedJavaFiles.addAll(
-                		//生成Java文件内容
-                		introspectedTable.getGeneratedJavaFiles());
-                
-                generatedXmlFiles.addAll(
-                		//生成xml文件内容
-                		introspectedTable.getGeneratedXmlFiles());
+                generatedJavaFiles.addAll(introspectedTable
+                        .getGeneratedJavaFiles());
+                generatedXmlFiles.addAll(introspectedTable
+                        .getGeneratedXmlFiles());
 
                 generatedJavaFiles.addAll(pluginAggregator
                         .contextGenerateAdditionalJavaFiles(introspectedTable));

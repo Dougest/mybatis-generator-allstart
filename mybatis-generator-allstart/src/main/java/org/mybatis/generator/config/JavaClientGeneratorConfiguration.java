@@ -30,52 +30,14 @@ public class JavaClientGeneratorConfiguration extends TypedPropertyHolder {
     private String targetPackage;
     private String implementationPackage;
     private String targetProject;
-    
-    private String baseMapper;
-    private String baseService;
-    private String baseServiceImpl;
-    private String baseController;
 
-    
-
-	public String getBasecontroller() {
-		return baseController;
-	}
-
-	public void setBasecontroller(String baseController) {
-		this.baseController = baseController;
-	}
-
-	/**
+    /**
      *  
      */
     public JavaClientGeneratorConfiguration() {
         super();
     }
-    
-    public String getBaseMapper() {
-		return baseMapper;
-	}
 
-	public void setBaseMapper(String baseMapper) {
-		this.baseMapper = baseMapper;
-	}
-
-	public String getBaseService() {
-		return baseService;
-	}
-
-	public void setBaseService(String baseService) {
-		this.baseService = baseService;
-	}
-
-	public String getBaseServiceImpl() {
-		return baseServiceImpl;
-	}
-
-	public void setBaseServiceImpl(String baseServiceImpl) {
-		this.baseServiceImpl = baseServiceImpl;
-	}
     public String getTargetProject() {
         return targetProject;
     }
@@ -110,19 +72,7 @@ public class JavaClientGeneratorConfiguration extends TypedPropertyHolder {
             answer.addAttribute(new Attribute(
                     "implementationPackage", targetProject)); //$NON-NLS-1$
         }
-        
-        if (baseMapper != null) {
-            answer.addAttribute(new Attribute("baseMapper", baseMapper)); //$NON-NLS-1$
-        }
-        if (baseService != null) {
-            answer.addAttribute(new Attribute("baseService", baseService)); //$NON-NLS-1$
-        }
-        if (baseServiceImpl != null) {
-            answer.addAttribute(new Attribute("baseServiceImpl", baseServiceImpl)); //$NON-NLS-1$
-        }
-        if (baseController != null) {
-            answer.addAttribute(new Attribute("baseController", baseController)); //$NON-NLS-1$
-        }
+
         addPropertyXmlElements(answer);
 
         return answer;

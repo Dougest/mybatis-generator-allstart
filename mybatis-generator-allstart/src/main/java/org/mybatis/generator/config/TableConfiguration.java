@@ -49,16 +49,8 @@ public class TableConfiguration extends PropertyHolder {
     private boolean deleteByExampleStatementEnabled;
 
     private boolean countByExampleStatementEnabled;
-    
-    private boolean updateByExampleStatementEnabled;
 
-    private boolean queryListStatementEnabled;
-    
-    private boolean countListStatementEnabled;
-    
-    private boolean queryListNoPageStatementEnabled;
-    
-    
+    private boolean updateByExampleStatementEnabled;
 
     private List<ColumnOverride> columnOverrides;
 
@@ -99,10 +91,6 @@ public class TableConfiguration extends PropertyHolder {
         deleteByExampleStatementEnabled = true;
         countByExampleStatementEnabled = true;
         updateByExampleStatementEnabled = true;
-        
-        queryListStatementEnabled = true;
-        countListStatementEnabled = true;
-        queryListNoPageStatementEnabled = true;
     }
 
     public boolean isDeleteByPrimaryKeyStatementEnabled() {
@@ -140,31 +128,7 @@ public class TableConfiguration extends PropertyHolder {
         this.updateByPrimaryKeyStatementEnabled = updateByPrimaryKeyStatementEnabled;
     }
 
-    public boolean isQueryListStatementEnabled() {
-		return queryListStatementEnabled;
-	}
-
-	public void setQueryListStatementEnabled(boolean queryListStatementEnabled) {
-		this.queryListStatementEnabled = queryListStatementEnabled;
-	}
-
-	public boolean isCountListStatementEnabled() {
-		return countListStatementEnabled;
-	}
-
-	public void setCountListStatementEnabled(boolean countListStatementEnabled) {
-		this.countListStatementEnabled = countListStatementEnabled;
-	}
-
-	public boolean isQueryListNoPageStatementEnabled() {
-		return queryListNoPageStatementEnabled;
-	}
-
-	public void setQueryListNoPageStatementEnabled(boolean queryListNoPageStatementEnabled) {
-		this.queryListNoPageStatementEnabled = queryListNoPageStatementEnabled;
-	}
-
-	public boolean isColumnIgnored(String columnName) {
+    public boolean isColumnIgnored(String columnName) {
         for (Map.Entry<IgnoredColumn, Boolean> entry : ignoredColumns
                 .entrySet()) {
             IgnoredColumn ic = entry.getKey();
@@ -434,18 +398,6 @@ public class TableConfiguration extends PropertyHolder {
             xmlElement.addAttribute(new Attribute(
                     "enableUpdateByExample", "false")); //$NON-NLS-1$ //$NON-NLS-2$
         }
-        if (!queryListStatementEnabled) {
-            xmlElement.addAttribute(new Attribute(
-                    "enableQueryListNoPage", "false")); //$NON-NLS-1$ //$NON-NLS-2$
-        }
-        if (!countListStatementEnabled) {
-            xmlElement.addAttribute(new Attribute(
-                    "enableCountList", "false")); //$NON-NLS-1$ //$NON-NLS-2$
-        }
-        if (!queryListNoPageStatementEnabled) {
-            xmlElement.addAttribute(new Attribute(
-                    "enableQueryListNoPage", "false")); //$NON-NLS-1$ //$NON-NLS-2$
-        }
 
         if (stringHasValue(selectByPrimaryKeyQueryId)) {
             xmlElement.addAttribute(new Attribute(
@@ -456,8 +408,6 @@ public class TableConfiguration extends PropertyHolder {
             xmlElement.addAttribute(new Attribute(
                     "selectByExampleQueryId", selectByExampleQueryId)); //$NON-NLS-1$
         }
-        
-        
 
         if (configuredModelType != null) {
             xmlElement.addAttribute(new Attribute(
