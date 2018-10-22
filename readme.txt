@@ -1,13 +1,25 @@
+				********************************************************
+				***	mybatis-generator-allstart 分层代码生成器     ***
+				********************************************************
+				
 基于mybatis-generator-core.1.3.2的魔改版
-在原先生成的mapper中加入分页查询,条件查询,条件统计.
-生成spring标准的service源码,controller源码,其中service层自带分页代码
-具体使用与原先版本大体类似
 
-由于此版本为初步版本,代码注释以及使用体验还有待提高
+1.mapper文件:在原先生成的mapper文件中加入分页查询,条件查询,条件统计.并且自动生成oracle/mysql分页sql(仅支持)
+2.dao: 自使用生成接口方法,若继承超类,则有超类抽象实现.
+3.service:生成spring标准的service源码,包含增删改,分页,列表,统计方法.
+4.service的实现类中,新增和更新操作已实现字符串解析功能.此类尤其建议使用超类(basic包下)自适应获取数据库的分页方法.
+5.controller: 包含add,update,delete,info,list方法,包含try-catch与返回值.
+
+注:超类使用方法可见:generator.xml中的<javaClientGenerator>标签.
+使用步骤:
+	1.在<javaClientGenerator>标签中,请指定 name 为baseMapper,baseService,baseServiceImpl,baseController 的value属性(超类位置).
+	2.本项目中的basic包下可见超类的具体在实现代码.复制粘贴即可.
+本应用鼓励使用超类,由JVM实现类型判断,方便我们后期的维护与控制.
+
 
 核心部分:
-Main 方法所在类 		org.mybatis.generator.api.ShellRunner
-各层次代码代码生成 
+Main 方法位置 		org.mybatis.generator.api.ShellRunner
+各分层代码实现位置(主逻辑代码)
 	--org.mybatis.generator.codegen.mybatis3.controller
 	--org.mybatis.generator.codegen.mybatis3.javamapper
 	--org.mybatis.generator.codegen.mybatis3.javaservice
@@ -25,3 +37,5 @@ org.mybatis.generator
 	--internal		== 内部使用的一些东西 
 		-- rules	== 规则,有些匹配规则才会生成相应代码
 
+由于此版本为迭代版本,代码注释以及使用体验还有待提高.
+如果你有建议或者疑问,请邮件:15050055260@163.com
