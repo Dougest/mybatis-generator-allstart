@@ -11,8 +11,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.agilers.utils.StringUtils;
-
 import net.sf.ezmorph.object.DateMorpher;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -24,6 +22,38 @@ import net.sf.json.util.JSONUtils;
  * @Date 2018年9月28日 上午10:43:35
  */
 public class BaseServiceImpl<T> {
+	/**
+	 * 有效状态
+	 */
+	protected static final String YXZT_YES = "1";
+	protected static final String YXZT_NO = "0";
+
+	protected String pager4Mysql(int pageIndex, int pageSize, String data, BaseMapper<T> mapper) {
+		int offest = 0;
+		int limit = 10;
+
+		Map<String, Object> map = commonsAnalyze(pageIndex, pageSize, data);
+		// net.sf.json.JSONObject
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("total", mapper.countList(map));
+
+		offest = Integer.valueOf(map.get("offset").toString());
+		limit = Integer.valueOf(map.get("limit").toString());
+
+		jsonObject.put("data", mapper.queryList(map, offest, limit));
+		return jsonObject.toString();
+	}
+
+	protected String pager4Oracle(int pageIndex, int pageSize, String data, BaseMapper<T> mapper) {
+
+		Map<String, Object> map = commonsAnalyze(pageIndex, pageSize, data);
+		// net.sf.json.JSONObject
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("total", mapper.countList(map));
+		jsonObject.put("data", mapper.queryList(map));
+		return jsonObject.toString();
+	}
+
 	/**
 	 * json 字符串转实体类
 	 * 
@@ -60,7 +90,7 @@ public class BaseServiceImpl<T> {
 	 *            本方法测试及使用见下面main方法
 	 */
 	protected List<Object> jsonToList(String json, Class<?> clz) {
-		if (StringUtils.isBlank(json))
+		if (isBlank(json))
 			return new ArrayList<Object>();
 
 		JSONArray jsonArray = JSONArray.fromObject(json);
@@ -88,9 +118,18 @@ public class BaseServiceImpl<T> {
 	 * @return
 	 */
 	protected Map<String, Object> commonsAnalyze(int pageIndex, int pageSize, String reqJson) {
-		String start = String.valueOf((pageIndex - 1) * pageSize + 1);
-		String end = String.valueOf(pageIndex * pageSize);
+
 		Map<String, Object> map = this.JsonStrTOMap(reqJson);
+
+		// mysql
+		String offset = String.valueOf(pageIndex * pageSize);
+		String limit = String.valueOf(pageSize);
+		map.put("offset", offset);
+		map.put("limit", limit);
+
+		// oracle
+		String start = String.valueOf((pageIndex - 1) * pageSize);
+		String end = String.valueOf(pageIndex * pageSize);
 		map.put("start", start);
 		map.put("end", end);
 
@@ -167,5 +206,57 @@ public class BaseServiceImpl<T> {
 				return new Date();
 			}
 		}
+	}
+
+	/**
+	 * @Describe clear map,put new k-v
+	 * @Author Dougest
+	 * @Date 2018年10月12日 上午10:47:21
+	 * @param map
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	protected static Object putNewValue(Map<String, Object> map, String key, Object value) {
+		map.clear();
+		map.put(key, value);
+		return map.get(key);
+	}
+
+	/**
+	 * 参数为null或者""," ",返回true,即有空值参数
+	 * 
+	 * @Describe
+	 * @Author Dougest
+	 * @Date 2PASS_STATUS18年1PASS_STATUS月12日 上午9:49:PASS_STATUS9
+	 * @param str
+	 * @return
+	 */
+	protected boolean vaildNotNullParam(String... str) {
+		for (String s : str) {
+			if (isBlank(s))
+				return true;
+		}
+		return false;
+	}
+
+	public static boolean isBlank(CharSequence cs) {
+		int len;
+		if (cs == null || (len = cs.length()) == 0)
+			return true;
+
+		for (int i = 0; i < len; i++)
+			if (Character.isWhitespace(cs.charAt(i)) == false)
+				return false;
+
+		return true;
+	}
+
+	protected static Map<String, Object> getNewMapInstance() {
+		return new HashMap<String, Object>();
+	}
+
+	protected void addYxzt4Map(Map<String, Object> map) {
+		map.put("yxzt", YXZT_YES);
 	}
 }

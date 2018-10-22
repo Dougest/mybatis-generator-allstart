@@ -64,9 +64,15 @@ public class UpdateByPrimaryKeySelectiveElementGenerator extends AbstractXmlElem
 			XmlElement isNotNullElement = new XmlElement("if"); //$NON-NLS-1$
 			sb.setLength(0);
 			sb.append(introspectedColumn.getJavaProperty());
-			sb.append(" != null and "); //$NON-NLS-1$
-			sb.append(introspectedColumn.getJavaProperty());
-			sb.append(" != '' "); //$NON-NLS-1$
+			sb.append(" != null"); //$NON-NLS-1$
+
+			String jdbctype = introspectedColumn.getJdbcTypeName().toLowerCase();
+			if (jdbctype.equals("varchar") || jdbctype.equals("varchar2")) {
+				sb.append(" and ");
+				sb.append(introspectedColumn.getJavaProperty());
+				sb.append(" != '' "); //$NON-NLS-1$
+			}
+
 			isNotNullElement.addAttribute(new Attribute("test", sb.toString())); //$NON-NLS-1$
 			dynamicElement.addElement(isNotNullElement);
 

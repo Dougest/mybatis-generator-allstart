@@ -80,12 +80,20 @@ public class JavaServiceImplGenerator extends AbstractJavaGenerator {
 			topLevelClass.addImportedType(genericType);
 			topLevelClass.setSuperClass(baseServiceImpl);
 			topLevelClass.addImportedType(baseServiceImpl);
+
 		} else {
 			addCommonsParametersAnalyzeMethod(topLevelClass);
 			addJsonStrTOMapMethod(topLevelClass);
 			addStringParseDateMthod(topLevelClass);
-		}
 
+			topLevelClass.addImportedType(FullyQualifiedJavaType.getNewInterface("java.util.Map.Entry"));
+			topLevelClass.addImportedType(FullyQualifiedJavaType.getNewInterface("java.util.Set"));
+			topLevelClass.addImportedType(FullyQualifiedJavaType.getNewInterface("java.text.ParseException"));
+			topLevelClass.addImportedType(FullyQualifiedJavaType.getNewInterface("java.text.SimpleDateFormat"));
+			topLevelClass.addImportedType(FullyQualifiedJavaType.getNewIteratorInstance());
+			topLevelClass.addImportedType(FullyQualifiedJavaType.getNewHashMapInstance());
+		}
+		topLevelClass.addImportedType(FullyQualifiedJavaType.getNewInterface("net.sf.json.JSONObject"));
 		FullyQualifiedJavaType mapper = new FullyQualifiedJavaType(introspectedTable.getMyBatis3JavaMapperType());
 
 		Field field = new Field();
@@ -97,13 +105,7 @@ public class JavaServiceImplGenerator extends AbstractJavaGenerator {
 		field.setName(ConstKey.service_reference);
 
 		topLevelClass.addField(field);
-		topLevelClass.addImportedType(FullyQualifiedJavaType.getNewInterface("java.util.Map.Entry"));
-		topLevelClass.addImportedType(FullyQualifiedJavaType.getNewInterface("java.util.Set"));
-		topLevelClass.addImportedType(FullyQualifiedJavaType.getNewInterface("java.text.ParseException"));
-		topLevelClass.addImportedType(FullyQualifiedJavaType.getNewInterface("java.text.SimpleDateFormat"));
-		topLevelClass.addImportedType(FullyQualifiedJavaType.getNewInterface("net.sf.json.JSONObject"));
-		topLevelClass.addImportedType(FullyQualifiedJavaType.getNewIteratorInstance());
-		topLevelClass.addImportedType(FullyQualifiedJavaType.getNewHashMapInstance());
+
 		topLevelClass.addImportedType(mapper);
 		topLevelClass.addImportedType(annotationType);
 

@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.mybatis.generator.api.ConstKey;
+import org.mybatis.generator.api.ShellRunner;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.api.dom.java.Method;
@@ -48,14 +49,36 @@ public class CommontListMethodGenerator extends AbstractJavaMethodGenerator {
 			sb.append(p.getName());
 			sb.append(",");
 		}
-		sb.setLength(sb.length() - 1);
+		// sb.setLength(sb.length() - 1);
 
-		method.addBodyLine("Map<String, Object> map = commonsAnalyze(" + sb + ");");
-		method.addBodyLine("// net.sf.json.JSONObject");
-		method.addBodyLine("JSONObject jsonObject = new JSONObject();");
-		method.addBodyLine("jsonObject.put(\"total\", mapper.countList(map));");
-		method.addBodyLine("jsonObject.put(\"data\", mapper.queryList(map));");
-		method.addBodyLine("return jsonObject.toString();");
+		// method.addBodyLine("Map<String, Object> map = commonsAnalyze(" + sb +
+		// ");");
+		// method.addBodyLine("// net.sf.json.JSONObject");
+		// method.addBodyLine("JSONObject jsonObject = new JSONObject();");
+		// method.addBodyLine("jsonObject.put(\"total\",
+		// mapper.countList(map));");
+		// method.addBodyLine("jsonObject.put(\"data\",
+		// mapper.queryList(map));");
+		// method.addBodyLine("return jsonObject.toString();");
+		StringBuilder sbs = new StringBuilder();
+		sbs.append(RETURN);
+		super.appendBlank(sbs);
+		sbs.append(SUPER);
+		super.appendSeparator(sbs);
+		if (ShellRunner.isOracle) {
+			sbs.append("pager4Oracle");
+		} else {
+			sbs.append("pager4Mysql");
+		}
+		super.appendLeftParentheis(sbs);
+
+		sbs.append(sb);
+		sbs.append("mapper");
+
+		super.appendRightParentheis(sbs);
+		super.appendSemicolon(sbs);
+
+		method.addBodyLine(sbs.toString());
 
 	}
 

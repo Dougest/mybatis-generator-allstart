@@ -1,5 +1,8 @@
 package basic;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.context.request.RequestContextHolder;
@@ -37,6 +40,18 @@ public class BaseController<T> {
 	public static final String RESULT_OPER_SUCCESS = "{\"status\": \"true\",\"msg\": \"操作成功!\"}";
 
 	public static final String RESULT_OPER_FAUILTRUE = "{\"status\": \"true\",\"msg\": \"操作失败!\"}";
+
+	public static final Map<String, Object> RESULT_OPER_SUCCESS_JSON = new HashMap<String, Object>();
+	public static final Map<String, Object> RESULT_OPER_FAUILTRUE_JSON = new HashMap<String, Object>();
+
+	static {
+		RESULT_OPER_SUCCESS_JSON.put("status", true);
+		RESULT_OPER_SUCCESS_JSON.put("msg", "操作成功!");
+		RESULT_OPER_FAUILTRUE_JSON.put("status", false);
+		RESULT_OPER_FAUILTRUE_JSON.put("msg", "操作失败!");
+	}
+
+	public static final String NUMBER_ZERO = "0";
 
 	/**
 	 * 获取全局Session

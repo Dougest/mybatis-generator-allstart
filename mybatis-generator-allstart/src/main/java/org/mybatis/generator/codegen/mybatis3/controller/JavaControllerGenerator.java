@@ -153,10 +153,10 @@ public class JavaControllerGenerator extends AbstractJavaGenerator {
 		method.addBodyLine("try {");
 		method.addBodyLine(reference + "." + ConstKey.SERVICE_ADD + "(" + paramName + ");");
 		if (isBaseControl) {
-			method.addBodyLine("return RESULT_OPER_SUCCESS;");
+			method.addBodyLine("return RESULT_OPER_SUCCESS_JSON;");
 			method.addBodyLine("} catch(RuntimeException e) {");
 			method.addBodyLine("e.printStackTrace();");
-			method.addBodyLine("return RESULT_OPER_FAUILTRUE;");
+			method.addBodyLine("return RESULT_OPER_FAUILTRUE_JSON;");
 			method.addBodyLine("}");
 		} else {
 			method.addBodyLine(ConstKey.returnSuccessData());
@@ -253,14 +253,14 @@ public class JavaControllerGenerator extends AbstractJavaGenerator {
 		// parameter.getName() + ");");
 		method.addBodyLine(reference + "." + ConstKey.SERVICE_DELETE + "(" + paramId + ");");
 		if (isBaseControl) {
-			method.addBodyLine("return RESULT_OPER_SUCCESS;");
+			method.addBodyLine("return RESULT_OPER_SUCCESS_JSON;");
 		} else {
 			method.addBodyLine(ConstKey.returnSuccessData());
 		}
 		method.addBodyLine("} catch(RuntimeException e) {");
 		method.addBodyLine("e.printStackTrace();");
 		if (isBaseControl) {
-			method.addBodyLine("return RESULT_OPER_FAUILTRUE;");
+			method.addBodyLine("return RESULT_OPER_FAUILTRUE_JSON;");
 		} else {
 			method.addBodyLine(ConstKey.returnFauilreData());
 		}
@@ -297,7 +297,7 @@ public class JavaControllerGenerator extends AbstractJavaGenerator {
 		method.addBodyLine("try {");
 		method.addBodyLine(reference + "." + ConstKey.SERVICE_UPDATE + "(" + paramName + ");");
 		if (isBaseControl) {
-			method.addBodyLine("return RESULT_OPER_SUCCESS;");
+			method.addBodyLine("return RESULT_OPER_SUCCESS_JSON;");
 		} else {
 			method.addBodyLine(ConstKey.returnSuccessData());
 		}
@@ -305,7 +305,7 @@ public class JavaControllerGenerator extends AbstractJavaGenerator {
 		method.addBodyLine("} catch(RuntimeException e) {");
 		method.addBodyLine("e.printStackTrace();");
 		if (isBaseControl) {
-			method.addBodyLine("return RESULT_OPER_FAUILTRUE;");
+			method.addBodyLine("return RESULT_OPER_FAUILTRUE_JSON;");
 		} else {
 			method.addBodyLine(ConstKey.returnFauilreData());
 		}

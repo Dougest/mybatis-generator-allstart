@@ -5,69 +5,70 @@ import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
-/**
- * @Descripe Í³¼ÆÒ³Âë
- * @author @Dougest
- * @Date 2018Äê9ÔÂ21ÈÕ ÏÂÎç3:19:55
- */
-public class Count4QueryListOnPageGenerator extends
-	AbstractXmlElementGenerator {
 
-	public Count4QueryListOnPageGenerator(){
+/**
+ * @Descripe Í³ï¿½ï¿½Ò³ï¿½ï¿½
+ * @author @Dougest
+ * @Date 2018ï¿½ï¿½9ï¿½ï¿½21ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½3:19:55
+ */
+public class Count4QueryListOnPageGenerator extends AbstractXmlElementGenerator {
+
+	public Count4QueryListOnPageGenerator() {
 		super();
 	}
-	
+
 	@Override
 	public void addElements(XmlElement parentElement) {
 		XmlElement answer = new XmlElement("select");
-		
+
 		answer.addAttribute(new Attribute("id", "countList"));
 		answer.addAttribute(new Attribute("resultType", "int"));
-	    answer.addAttribute(new Attribute("parameterType", "map"));
-	
-	    context.getCommentGenerator().addComment(answer);
-	
-	    StringBuilder sb = new StringBuilder();
-	    sb.append("select count(1) from "); //$NON-NLS-1$
-	    //table
-	    sb.append(introspectedTable
-	            .getAliasedFullyQualifiedTableNameAtRuntime());
-	    answer.addElement(new TextElement(sb.toString()));
-	    
-	    XmlElement dynamicElement = new XmlElement("where"); //$NON-NLS-1$
-	    answer.addElement(dynamicElement);
-	    int start = 0;
-	    for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns()){
-	        XmlElement isNotNullElement = new XmlElement("if"); //$NON-NLS-1$
-	        sb.setLength(0);
-	        sb.append(introspectedColumn.getJavaProperty());
-	        sb.append(" != null and "); //$NON-NLS-1$
-	        sb.append(introspectedColumn.getJavaProperty());
-	        sb.append(" != ''");
-	        isNotNullElement.addAttribute(new Attribute("test", sb.toString())); //$NON-NLS-1$
-	        dynamicElement.addElement(isNotNullElement);
-	
-	        sb.setLength(0);
-	        
-	        if(start != 0) 
-            	sb.append(" and ");
-	        start++;
-	        sb.append(MyBatis3FormattingUtilities
-	                .getEscapedColumnName(introspectedColumn));
-	        sb.append(" = "); //$NON-NLS-1$
-	        sb.append(MyBatis3FormattingUtilities
-	                .getParameterClause(introspectedColumn));
-	        //sb.append(',');
-	
-	        isNotNullElement.addElement(new TextElement(sb.toString()));
-	    }
-	
-//	    if (context.getPlugins()
-//	            .sqlMapUpdateByPrimaryKeySelectiveElementGenerated(answer,
-//	                    introspectedTable)) {
-	        parentElement.addElement(answer);
-//	    }
-//		
-		
+		answer.addAttribute(new Attribute("parameterType", "map"));
+
+		context.getCommentGenerator().addComment(answer);
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("select count(1) from "); //$NON-NLS-1$
+		// table
+		sb.append(introspectedTable.getAliasedFullyQualifiedTableNameAtRuntime());
+		answer.addElement(new TextElement(sb.toString()));
+
+		XmlElement dynamicElement = new XmlElement("where"); //$NON-NLS-1$
+		answer.addElement(dynamicElement);
+		int start = 0;
+		for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns()) {
+			XmlElement isNotNullElement = new XmlElement("if"); //$NON-NLS-1$
+			sb.setLength(0);
+			sb.append(introspectedColumn.getJavaProperty());
+			sb.append(" != null"); //$NON-NLS-1$
+			String jdbctype = introspectedColumn.getJdbcTypeName().toLowerCase();
+			if (jdbctype.equals("varchar") || jdbctype.equals("varchar2")) {
+				sb.append(" and ");
+				sb.append(introspectedColumn.getJavaProperty());
+				sb.append(" != '' "); //$NON-NLS-1$
+			}
+			isNotNullElement.addAttribute(new Attribute("test", sb.toString())); //$NON-NLS-1$
+			dynamicElement.addElement(isNotNullElement);
+
+			sb.setLength(0);
+
+			if (start != 0)
+				sb.append(" and ");
+			start++;
+			sb.append(MyBatis3FormattingUtilities.getEscapedColumnName(introspectedColumn));
+			sb.append(" = "); //$NON-NLS-1$
+			sb.append(MyBatis3FormattingUtilities.getParameterClause(introspectedColumn));
+			// sb.append(',');
+
+			isNotNullElement.addElement(new TextElement(sb.toString()));
+		}
+
+		// if (context.getPlugins()
+		// .sqlMapUpdateByPrimaryKeySelectiveElementGenerated(answer,
+		// introspectedTable)) {
+		parentElement.addElement(answer);
+		// }
+		//
+
 	}
 }
