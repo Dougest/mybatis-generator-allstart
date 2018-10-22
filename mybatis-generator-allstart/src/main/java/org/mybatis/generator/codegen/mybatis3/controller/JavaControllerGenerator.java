@@ -26,6 +26,8 @@ public class JavaControllerGenerator extends AbstractJavaGenerator {
 
 	private static final String paramName = "data";
 
+	private static final String paramId = "id";
+
 	private static Boolean isBaseControl = false;
 
 	public void setContext(Context context) {
@@ -190,15 +192,18 @@ public class JavaControllerGenerator extends AbstractJavaGenerator {
 		for (IntrospectedColumn introspectedColumn : introspectedColumns) {
 			FullyQualifiedJavaType type = introspectedColumn.getFullyQualifiedJavaType();
 			importedTypes.add(type);
-			parameter = new Parameter(type, introspectedColumn.getJavaProperty());
+			// parameter = new Parameter(type,
+			// introspectedColumn.getJavaProperty());
+			parameter = new Parameter(type, paramId);
 			method.addParameter(parameter);
 		}
 		FullyQualifiedJavaType modal = introspectedTable.getRules().calculateAllFieldsClass();
 		method.addBodyLine("try {");
 		String modalName = modal.getBaseShortName();
-		method.addBodyLine(
-				modalName + " record = " + reference + "." + ConstKey.SERVICE_INFO + "(" + parameter.getName() + ");");
-
+		// method.addBodyLine(
+		// modalName + " record = " + reference + "." + ConstKey.SERVICE_INFO +
+		// "(" + parameter.getName() + ");");
+		method.addBodyLine(modalName + " record = " + reference + "." + ConstKey.SERVICE_INFO + "(" + paramId + ");");
 		method.addBodyLine("return record;");
 		method.addBodyLine("} catch(RuntimeException e) {");
 		method.addBodyLine("e.printStackTrace();");
@@ -238,11 +243,15 @@ public class JavaControllerGenerator extends AbstractJavaGenerator {
 		for (IntrospectedColumn introspectedColumn : introspectedColumns) {
 			FullyQualifiedJavaType type = introspectedColumn.getFullyQualifiedJavaType();
 			importedTypes.add(type);
-			parameter = new Parameter(type, introspectedColumn.getJavaProperty());
+			// parameter = new Parameter(type,
+			// introspectedColumn.getJavaProperty());
+			parameter = new Parameter(type, paramId);
 			method.addParameter(parameter);
 		}
 		method.addBodyLine("try {");
-		method.addBodyLine(reference + "." + ConstKey.SERVICE_DELETE + "(" + parameter.getName() + ");");
+		// method.addBodyLine(reference + "." + ConstKey.SERVICE_DELETE + "(" +
+		// parameter.getName() + ");");
+		method.addBodyLine(reference + "." + ConstKey.SERVICE_DELETE + "(" + paramId + ");");
 		if (isBaseControl) {
 			method.addBodyLine("return RESULT_OPER_SUCCESS;");
 		} else {
