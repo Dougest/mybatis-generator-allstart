@@ -13,34 +13,34 @@ public class QueryAllOnPageMethodGenerator extends AbstractJavaMapperMethodGener
 
 	@Override
 	public void addInterfaceElements(Interface interfaze) {
-		
+
 		Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
-		
+
 		Method method = new Method();
 		method.setName("queryList");
-		
+
+		method.addJavaDocLine("/** is suit for oracle **/");
+
 		FullyQualifiedJavaType param = FullyQualifiedJavaType.getNewMapInstance();
-        param.addTypeArgument(FullyQualifiedJavaType.getStringInstance());
-        param.addTypeArgument(FullyQualifiedJavaType.getObjectInstance());
-        Parameter parameter = new Parameter(param,"map");
-        method.addParameter(parameter);
-        importedTypes.add(param);
-		
+		param.addTypeArgument(FullyQualifiedJavaType.getStringInstance());
+		param.addTypeArgument(FullyQualifiedJavaType.getObjectInstance());
+		Parameter parameter = new Parameter(param, "map");
+		method.addParameter(parameter);
+		importedTypes.add(param);
+
 		FullyQualifiedJavaType returnType = FullyQualifiedJavaType.getNewListInstance();
 		FullyQualifiedJavaType entity = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
 		returnType.addTypeArgument(entity);
-		
+
 		method.setReturnType(returnType);
 		method.setVisibility(JavaVisibility.PUBLIC);
-		
+
 		importedTypes.add(returnType);
 		importedTypes.add(entity);
-		
-		
+
 		interfaze.addMethod(method);
 		interfaze.addImportedTypes(importedTypes);
-		
-		
+
 	}
-	
+
 }

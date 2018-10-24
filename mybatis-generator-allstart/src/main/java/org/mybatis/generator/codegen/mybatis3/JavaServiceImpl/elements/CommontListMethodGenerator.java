@@ -15,6 +15,12 @@ import org.mybatis.generator.codegen.mybatis3.JavaServiceImpl.AbstractJavaMethod
 
 public class CommontListMethodGenerator extends AbstractJavaMethodGenerator {
 
+	private boolean isBaseServiceImpl;
+
+	public CommontListMethodGenerator(boolean isBaseServiceImpl) {
+		this.isBaseServiceImpl = isBaseServiceImpl;
+	}
+
 	@Override
 	public void addClassMethod(TopLevelClass topLevelClass) {
 		Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
@@ -49,36 +55,47 @@ public class CommontListMethodGenerator extends AbstractJavaMethodGenerator {
 			sb.append(p.getName());
 			sb.append(",");
 		}
-		// sb.setLength(sb.length() - 1);
+		if (isBaseServiceImpl) {
+			StringBuilder sbs = new StringBuilder();
+			sbs.append(RETURN);
+			super.appendBlank(sbs);
+			sbs.append(SUPER);
+			super.appendSeparator(sbs);
+			if (ShellRunner.isOracle) {
+				sbs.append("pager4Oracle");
+			} else {
+				sbs.append("pager4Mysql");
+			}
+			super.appendLeftParentheis(sbs);
 
-		// method.addBodyLine("Map<String, Object> map = commonsAnalyze(" + sb +
-		// ");");
-		// method.addBodyLine("// net.sf.json.JSONObject");
-		// method.addBodyLine("JSONObject jsonObject = new JSONObject();");
-		// method.addBodyLine("jsonObject.put(\"total\",
-		// mapper.countList(map));");
-		// method.addBodyLine("jsonObject.put(\"data\",
-		// mapper.queryList(map));");
-		// method.addBodyLine("return jsonObject.toString();");
-		StringBuilder sbs = new StringBuilder();
-		sbs.append(RETURN);
-		super.appendBlank(sbs);
-		sbs.append(SUPER);
-		super.appendSeparator(sbs);
-		if (ShellRunner.isOracle) {
-			sbs.append("pager4Oracle");
+			sbs.append(sb);
+			sbs.append("mapper");
+
+			super.appendRightParentheis(sbs);
+			super.appendSemicolon(sbs);
+
+			method.addBodyLine(sbs.toString());
+
 		} else {
-			sbs.append("pager4Mysql");
+			sb.setLength(sb.length() - 1);
+			method.addBodyLine("Map<String, Object> map = commonsAnalyze(" + sb + ");");
+			method.addBodyLine("// net.sf.json.JSONObject");
+			method.addBodyLine("JSONObject jsonObject = new JSONObject();");
+			method.addBodyLine("jsonObject.put(\"total\",mapper.countList(map));");
+			if (ShellRunner.isOracle) {
+				method.addBodyLine("jsonObject.put(\"data\", mapper.queryList(map));");
+
+			} else {
+				method.addBodyLine("int offset = 0;");
+				method.addBodyLine("int limit = 10;");
+				method.addBodyLine("// Note : Prone to error ... ");
+				method.addBodyLine("offset = Integer.valueOf(map.get(\"offset\").toString());");
+				method.addBodyLine("limit = Integer.valueOf(map.get(\"limit\").toString());");
+				method.addBodyLine("jsonObject.put(\"data\", mapper.queryList(map, offset, limit));");
+
+			}
+			method.addBodyLine("return jsonObject.toString();");
 		}
-		super.appendLeftParentheis(sbs);
-
-		sbs.append(sb);
-		sbs.append("mapper");
-
-		super.appendRightParentheis(sbs);
-		super.appendSemicolon(sbs);
-
-		method.addBodyLine(sbs.toString());
 
 	}
 

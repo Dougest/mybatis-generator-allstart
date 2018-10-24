@@ -41,12 +41,21 @@ public class CommonsParametersAnalyzeMethodGenerator extends AbstractJavaMethodG
 	}
 
 	protected void addMethodBody(Method method) {
+		method.addBodyLine("Map<String, Object> map = this.JsonStrTOMap(reqJson);");
 
+		method.addJavaDocLine("// oracle");
 		method.addBodyLine("String start = String.valueOf((pageIndex - 1) * pageSize + 1);");
 		method.addBodyLine("String end = String.valueOf(pageIndex * pageSize);");
-		method.addBodyLine("Map<String, Object> map = this.JsonStrTOMap(reqJson);");
+
 		method.addBodyLine("map.put(\"start\", start);");
 		method.addBodyLine("map.put(\"end\", end);");
+
+		method.addJavaDocLine("// mysql");
+		method.addBodyLine("String offset = String.valueOf(pageIndex * pageSize);");
+		method.addBodyLine("String limit = String.valueOf(pageSize);");
+		method.addBodyLine("map.put(\"offset\", offset);");
+		method.addBodyLine("map.put(\"limit\", limit);");
+
 		method.addBodyLine("");
 		method.addBodyLine("String time;");
 		method.addBodyLine("Date date;");

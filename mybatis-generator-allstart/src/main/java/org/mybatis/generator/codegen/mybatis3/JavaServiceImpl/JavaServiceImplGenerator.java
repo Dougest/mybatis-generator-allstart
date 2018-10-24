@@ -71,7 +71,7 @@ public class JavaServiceImplGenerator extends AbstractJavaGenerator {
 		commentGenerator.addJavaFileComment(topLevelClass);
 		topLevelClass.addSuperInterface(service);
 		topLevelClass.addImportedType(service);
-
+		boolean isBaseServiceImpl = false;
 		if (!StringUtils.isBlank(baseserviceImpl)) {
 			FullyQualifiedJavaType baseServiceImpl = FullyQualifiedJavaType.getNewInterface(baseserviceImpl);
 			FullyQualifiedJavaType genericType = introspectedTable.getRules().calculateAllFieldsClass();
@@ -80,6 +80,7 @@ public class JavaServiceImplGenerator extends AbstractJavaGenerator {
 			topLevelClass.addImportedType(genericType);
 			topLevelClass.setSuperClass(baseServiceImpl);
 			topLevelClass.addImportedType(baseServiceImpl);
+			isBaseServiceImpl = true;
 
 		} else {
 			addCommonsParametersAnalyzeMethod(topLevelClass);
@@ -113,7 +114,7 @@ public class JavaServiceImplGenerator extends AbstractJavaGenerator {
 		addInfoMethod(topLevelClass);
 		addUpdateMethod(topLevelClass);
 		addDeleteMethod(topLevelClass);
-		addCommontListMethod(topLevelClass);
+		addCommontListMethod(topLevelClass, isBaseServiceImpl);
 		addQueryMethod(topLevelClass);
 
 		List<CompilationUnit> answer = new ArrayList<CompilationUnit>();
@@ -159,8 +160,8 @@ public class JavaServiceImplGenerator extends AbstractJavaGenerator {
 
 	}
 
-	private void addCommontListMethod(TopLevelClass topLevelClass) {
-		AbstractJavaMethodGenerator generator = new CommontListMethodGenerator();
+	private void addCommontListMethod(TopLevelClass topLevelClass, boolean isBaseServiceImpl) {
+		AbstractJavaMethodGenerator generator = new CommontListMethodGenerator(isBaseServiceImpl);
 		generator.setContext(context);
 		generator.setIntrospectedTable(introspectedTable);
 		generator.addClassMethod(topLevelClass);

@@ -39,6 +39,7 @@ import org.mybatis.generator.codegen.mybatis3.javamapper.elements.DeleteByPrimar
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.InsertMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.InsertSelectiveMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.QueryAllNoPageMethodGenerator;
+import org.mybatis.generator.codegen.mybatis3.javamapper.elements.QueryAllOnPageMethod4MysqlGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.QueryAllOnPageMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.SelectByExampleWithBLOBsMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.SelectByExampleWithoutBLOBsMethodGenerator;
@@ -122,6 +123,8 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
 			// new add
 			addCountAllMethod(interfaze);
 			addQueryAllNoPageMethod(interfaze);
+			addQueryAllOnPageMethod4MysqlMethod(interfaze);
+
 			addQueryAll(interfaze);
 		}
 
@@ -144,6 +147,11 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
 		}
 
 		return answer;
+	}
+
+	protected void addQueryAllOnPageMethod4MysqlMethod(Interface interfaze) {
+		AbstractJavaMapperMethodGenerator methodGenerator = new QueryAllOnPageMethod4MysqlGenerator();
+		initializeAndExecuteGenerator(methodGenerator, interfaze);
 	}
 
 	protected void addQueryAllNoPageMethod(Interface interfaze) {

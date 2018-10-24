@@ -29,6 +29,46 @@ import org.mybatis.generator.config.Context;
 public abstract class AbstractGenerator {
 	protected static final String modalName = "record";
 	protected static final String paramName = "data";
+
+	protected static final String SUPER = "super";
+	protected static final String THIS = "this";
+	protected static final String RETURN = "return";
+	/** 顿号 **/
+	protected static final String SEPARATOR = ".";
+	/** 空格 **/
+	protected static final String BLANK = " ";
+	/** 左括弧 **/
+	protected static final String LEFT_PARENTHESIS = "(";
+	/** 右括弧 **/
+	protected static final String RIGHT_PARENTHESIS = ")";
+	/** 分号 **/
+	protected static final String semicolon = ";";
+
+	/** 分号 **/
+	protected void appendSemicolon(StringBuilder sb) {
+		sb.append(semicolon);
+	}
+
+	/** 左括弧 **/
+	protected void appendLeftParentheis(StringBuilder sb) {
+		sb.append(LEFT_PARENTHESIS);
+	}
+
+	/** 右括弧 **/
+	protected void appendRightParentheis(StringBuilder sb) {
+		sb.append(RIGHT_PARENTHESIS);
+	}
+
+	/** 顿号 **/
+	protected void appendSeparator(StringBuilder sb) {
+		sb.append(SEPARATOR);
+	}
+
+	/** 空格 **/
+	protected void appendBlank(StringBuilder sb) {
+		sb.append(BLANK);
+	}
+
 	protected Context context;
 	protected IntrospectedTable introspectedTable;
 	protected List<String> warnings;
