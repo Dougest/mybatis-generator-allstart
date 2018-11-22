@@ -39,3 +39,43 @@ org.mybatis.generator
 
 由于此版本为迭代版本,代码注释以及使用体验还有待提高.
 如果你有建议或者疑问,请邮件:15050055260@163.com
+
+
+DEMO:
+
+****************************************
+***     	controller				****
+****************************************
+package com.test.entity;
+
+public class testUser {
+    private Long id;
+
+    private String name;
+
+    private String age;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+}
